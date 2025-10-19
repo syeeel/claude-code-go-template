@@ -1,47 +1,172 @@
-# Claude Code
+# Go Development Template with Claude Code
 
-![](https://img.shields.io/badge/Node.js-18%2B-brightgreen?style=flat-square) [![npm]](https://www.npmjs.com/package/@anthropic-ai/claude-code)
+Go言語開発用のDevContainer環境テンプレートです。
 
-[npm]: https://img.shields.io/npm/v/@anthropic-ai/claude-code.svg?style=flat-square
+## 特徴
 
-Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows -- all through natural language commands. Use it in your terminal, IDE, or tag @claude on Github.
+- **Go 1.23.2** - 最新の安定版Go
+- **開発ツール完備**
+  - `gopls` - Go Language Server（コード補完、リファクタリング）
+  - `golangci-lint` - 統合リンター
+  - `delve (dlv)` - デバッガー
+  - `air` - ホットリロード
+- **Claude Code統合** - AI支援による開発
+- **VS Code拡張機能** - Go開発に最適化された設定
 
-**Learn more in the [official documentation](https://docs.anthropic.com/en/docs/claude-code/overview)**.
+## セットアップ
 
-<img src="./demo.gif" />
+### 1. Devcontainerの起動
 
-## Get started
+VS Code / Cursorでこのプロジェクトを開き、コマンドパレットから：
 
-1. Install Claude Code:
-
-```sh
-npm install -g @anthropic-ai/claude-code
+```
+Dev Containers: Rebuild and Reopen in Container
 ```
 
-2. Navigate to your project directory and run `claude`.
+を実行してください。
 
-## Plugins
+### 2. 動作確認
 
-This repository includes several Claude Code plugins that extend functionality with custom commands and agents. See the [plugins directory](./plugins/README.md) for detailed documentation on available plugins.
+コンテナが起動したら、以下のコマンドで環境を確認：
 
-## Reporting Bugs
+```bash
+# Goのバージョン確認
+go version
 
-We welcome your feedback. Use the `/bug` command to report issues directly within Claude Code, or file a [GitHub issue](https://github.com/anthropics/claude-code/issues).
+# 開発ツールの確認
+gopls version
+golangci-lint --version
+dlv version
+air -v
+```
 
-## Connect on Discord
+## 使い方
 
-Join the [Claude Developers Discord](https://anthropic.com/discord) to connect with other developers using Claude Code. Get help, share feedback, and discuss your projects with the community.
+### 基本的な開発
 
-## Data collection, usage, and retention
+```bash
+# アプリケーションの実行
+go run main.go
 
-When you use Claude Code, we collect feedback, which includes usage data (such as code acceptance or rejections), associated conversation data, and user feedback submitted via the `/bug` command.
+# ビルド
+go build -o app
 
-### How we use your data
+# テストの実行
+go test ./...
 
-See our [data usage policies](https://docs.anthropic.com/en/docs/claude-code/data-usage).
+# リンターの実行
+golangci-lint run
+```
 
-### Privacy safeguards
+### ホットリロード（Air使用）
 
-We have implemented several safeguards to protect your data, including limited retention periods for sensitive information, restricted access to user session data, and clear policies against using feedback for model training.
+```bash
+# Airでホットリロードを有効にして開発
+air
 
-For full details, please review our [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms) and [Privacy Policy](https://www.anthropic.com/legal/privacy).
+# .air.toml で設定をカスタマイズ可能
+```
+
+ファイルを保存すると自動的に再ビルド・再起動されます。
+
+### デバッグ
+
+VS Code / Cursorのデバッグ機能を使用するか、コマンドラインから：
+
+```bash
+# デバッガーを起動
+dlv debug
+```
+
+## プロジェクト構成
+
+```
+.
+├── .devcontainer/       # DevContainer設定
+│   ├── Dockerfile       # Go開発環境の定義
+│   └── devcontainer.json
+├── .air.toml           # Airホットリロード設定
+├── main.go             # メインアプリケーション
+├── go.mod              # Go module定義
+└── README.md           # このファイル
+```
+
+## サンプルアプリケーション
+
+このテンプレートには簡単なHTTPサーバーが含まれています：
+
+```bash
+# サーバーを起動
+go run main.go
+
+# 別のターミナルで確認
+curl http://localhost:8080
+curl http://localhost:8080/health
+```
+
+## 開発環境の詳細
+
+### インストール済みツール
+
+- Go 1.23.2
+- Node.js 20（Claude Code用）
+- Git, GitHub CLI
+- Zsh（デフォルトシェル）
+- Git Delta（差分表示）
+
+### Go開発ツール
+
+- `gopls` - Language Server Protocol実装
+- `golangci-lint` - 統合リンター（複数のリンターを統合）
+- `delve` - Goデバッガー
+- `air` - ライブリロードツール
+
+### VS Code設定
+
+- 保存時の自動フォーマット
+- 保存時のインポート整理
+- golangci-lintによる自動リント
+
+## カスタマイズ
+
+### Goバージョンの変更
+
+`.devcontainer/Dockerfile` の `FROM golang:1.23.2-bookworm` を変更してください。
+
+### 追加のGo依存関係
+
+```bash
+go get <package-name>
+```
+
+### 追加の開発ツール
+
+`.devcontainer/Dockerfile` の該当セクションに追加してください。
+
+## トラブルシューティング
+
+### コンテナが起動しない
+
+```bash
+# コンテナを完全に再ビルド
+Dev Containers: Rebuild Container Without Cache
+```
+
+### Go言語サーバーが動作しない
+
+```bash
+# goplsの再インストール
+go install golang.org/x/tools/gopls@latest
+```
+
+## Claude Code について
+
+このテンプレートはClaude Codeと統合されています。
+詳しくは[公式ドキュメント](https://docs.anthropic.com/en/docs/claude-code/overview)をご覧ください。
+
+## リンク
+
+- [Go公式ドキュメント](https://go.dev/doc/)
+- [Claude Code](https://claude.ai/code)
+- [golangci-lint](https://golangci-lint.run/)
+- [Air](https://github.com/air-verse/air)

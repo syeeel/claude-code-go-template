@@ -1,12 +1,13 @@
 {
-  "name": "Claude Code Sandbox",
+  "name": "Go Development Environment",
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
       "TZ": "${localEnv:TZ:America/Los_Angeles}",
       "CLAUDE_CODE_VERSION": "latest",
       "GIT_DELTA_VERSION": "0.18.2",
-      "ZSH_IN_DOCKER_VERSION": "1.2.0"
+      "ZSH_IN_DOCKER_VERSION": "1.2.0",
+      "NODE_VERSION": "20"
     }
   },
   "runArgs": [
@@ -17,16 +18,21 @@
     "vscode": {
       "extensions": [
         "anthropic.claude-code",
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
+        "golang.go",
         "eamodio.gitlens"
       ],
       "settings": {
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": "explicit"
+        "editor.defaultFormatter": "golang.go",
+        "[go]": {
+          "editor.defaultFormatter": "golang.go",
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+          }
         },
+        "go.toolsManagement.autoUpdate": true,
+        "go.lintTool": "golangci-lint",
+        "go.lintOnSave": "workspace",
         "terminal.integrated.defaultProfile.linux": "zsh",
         "terminal.integrated.profiles.linux": {
           "bash": {
@@ -40,14 +46,14 @@
       }
     }
   },
-  "remoteUser": "node",
+  "remoteUser": "gopher",
   "mounts": [
     "source=claude-code-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
-    "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume"
+    "source=claude-code-config-${devcontainerId},target=/home/gopher/.claude,type=volume"
   ],
   "containerEnv": {
     "NODE_OPTIONS": "--max-old-space-size=4096",
-    "CLAUDE_CONFIG_DIR": "/home/node/.claude",
+    "CLAUDE_CONFIG_DIR": "/home/gopher/.claude",
     "POWERLEVEL9K_DISABLE_GITSTATUS": "true"
   },
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
