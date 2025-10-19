@@ -1,5 +1,5 @@
 {
-  "name": "Go Development Environment",
+  "name": "koto",
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
