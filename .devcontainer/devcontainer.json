@@ -1,5 +1,5 @@
 {
-  "name": "koto",
+  "name": "Claude Code template for Go projects",
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
